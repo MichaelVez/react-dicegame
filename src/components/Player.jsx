@@ -6,12 +6,13 @@ export default class Player extends Component {
     super(props);
   }
   active = () => {
-    return <div className='active'>*</div>;
+    return <div className='active'>{this.props.gameState}</div>;
   };
   checkActive = () => {
     if (this.props.activePlayer === this.props.player) return true;
     return false;
   };
+
   render() {
     return (
       <div className='player'>
@@ -19,8 +20,8 @@ export default class Player extends Component {
           Player {this.props.player}
           {this.checkActive() && this.active()}
         </h1>
-        <h2 className='playerScore'>Score{this.props.score}</h2>
-        <h2 className='playerCurrent'>Current{this.props.current}</h2>
+        <h2 className='playerScore'>Score {this.props.score}</h2>
+        <h2 className='playerCurrent'>Current {this.props.current}</h2>
       </div>
     );
   }

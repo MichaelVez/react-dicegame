@@ -69,3 +69,6 @@
   background: url(./components/img/dice-6.png);
   background-size: contain;
 }
+input {
+  width: 100px;
+}
