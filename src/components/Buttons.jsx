@@ -5,7 +5,7 @@ export default class Buttons extends Component {
     return (
       <div className='buttons'>
         <button className='button' onClick={this.props.newGame}>
-          NewGame
+          New Game
         </button>
         <div className={`diceA ${this.props.rand_diceA}`}></div>
         <div className={`diceB ${this.props.rand_diceB}`}></div>

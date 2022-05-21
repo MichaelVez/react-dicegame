@@ -13,11 +13,12 @@ class App extends React.Component {
       player2_current: 0,
       activePlayer: "1",
       diceA: "dice1",
-      diceB: "dice2",
+      diceB: "dice1",
       inputMaxScore: 100,
       inputDisableStatus: false,
       gameState: "Playing",
       holdAndRollDisableStatus: false,
+      newGame: true,
     };
   }
   btnRollDiceClick = () => {
@@ -25,24 +26,35 @@ class App extends React.Component {
 
     let randomRollA = Math.floor(Math.random() * 6 + 1);
     let randomRollB = Math.floor(Math.random() * 6 + 1);
-    if (randomRollA === 6 && randomRollB === 6) {
+    if (
+      randomRollA === 6 &&
+      randomRollB === 6 &&
+      this.state.activePlayer === "1"
+    ) {
+      this.setState({ activePlayer: "2" });
+      this.setState({ player1_current: 0 });
       //todo next player turn
+      //!
+      //!
+      //!
+      this.setState({ snoopDogg: true });
+    } else if (
+      randomRollA === 6 &&
+      randomRollB === 6 &&
+      this.state.activePlayer === "2"
+    ) {
+      this.setState({ activePlayer: "1" });
+      this.setState({ player2_current: 0 });
+      //todo next player turn
+      //!
+      //!
+      //!
+      this.setState({ snoopDogg: true });
     }
 
     this.setState({ diceA: `dice${randomRollA}` });
     this.setState({ diceB: `dice${randomRollB}` });
     this.addToCurrent(randomRollA, randomRollB);
-  };
-  componentDidUpdate() {
-    if (this.state.gameState === "Playing") this.checkWin();
-  }
-  handleMaxScoreInput = () => {
-    console.log(typeof this.state.inputMaxScore);
-    if (this.state.inputMaxScore === "") this.setState({ inputMaxScore: 100 });
-    this.setState({ inputDisableStatus: true });
-    //min of 10
-    if (parseInt(this.state.inputMaxScore) < 10)
-      this.setState({ inputMaxScore: "10" });
   };
   addToCurrent = (randomRollA, randomRollB) => {
     if (this.state.activePlayer === "1") {
@@ -55,6 +67,21 @@ class App extends React.Component {
         player2_current: this.state.player2_current + randomRollA + randomRollB,
       });
     }
+  };
+  componentDidMount() {
+    this.handleBackGround();
+  }
+  componentDidUpdate() {
+    if (this.state.gameState === "Playing") this.checkWin();
+    this.handleBackGround();
+  }
+  handleMaxScoreInput = () => {
+    console.log(typeof this.state.inputMaxScore);
+    if (this.state.inputMaxScore === "") this.setState({ inputMaxScore: 100 });
+    this.setState({ inputDisableStatus: true });
+    //min of 10
+    if (parseInt(this.state.inputMaxScore) < 10)
+      this.setState({ inputMaxScore: "10" });
   };
   btnHoldClick = () => {
     if (this.state.activePlayer === "1") {
@@ -88,6 +115,18 @@ class App extends React.Component {
     this.setState({ inputMaxScore: e.target.value });
     console.log(this.state.inputMaxScore);
   };
+  handleBackGround = () => {
+    let im1 = document.querySelectorAll(".playerName")[0].parentElement;
+    let im2 = document.querySelectorAll(".playerName")[1].parentElement;
+    if (this.state.activePlayer === "1") {
+      im1.style.backgroundColor = "rgb(162, 255, 206)";
+      im2.style.backgroundColor = "rgb(255,255,255)";
+    }
+    if (this.state.activePlayer === "2") {
+      im1.style.backgroundColor = "rgb(255,255,255)";
+      im2.style.backgroundColor = "rgb(162, 255, 206)";
+    }
+  };
   checkWin = () => {
     let totalScoreA = this.state.player1_current + this.state.player1_score;
     let totalScoreB = this.state.player2_current + this.state.player2_score;
@@ -95,15 +134,16 @@ class App extends React.Component {
       totalScoreA >= this.state.inputMaxScore ||
       totalScoreB >= this.state.inputMaxScore
     ) {
-      if (totalScoreA === this.state.inputMaxScore) {
+      if (totalScoreA == this.state.inputMaxScore) {
         //todo WIN
         console.log("player1 win");
         this.setState({ activePlayer: "1" });
         this.setState({ gameState: "Winner" });
+
         this.disableButtonsOnWinToggle();
         return;
       }
-      if (totalScoreB === this.state.inputMaxScore) {
+      if (totalScoreB == this.state.inputMaxScore) {
         console.log("player 2 win");
         this.setState({ activePlayer: "2" });
         this.setState({ gameState: "Winner" });
@@ -111,7 +151,6 @@ class App extends React.Component {
         //todo WIN
         return;
       }
-      console.log("in if");
       if (totalScoreA > this.state.inputMaxScore) {
         console.log("player1 lose");
         this.setState({ activePlayer: "2" });
@@ -130,13 +169,17 @@ class App extends React.Component {
       }
     }
   };
+
   disableButtonsOnWinToggle = () => {
     this.setState({
       holdAndRollDisableStatus: !this.state.holdAndRollDisableStatus,
     });
   };
   newGameClicks = () => {
-    this.disableButtonsOnWinToggle();
+    this.setState({ newGame: false });
+    this.setState({
+      holdAndRollDisableStatus: false,
+    });
     this.setState({
       player1_score: 0,
       player1_current: 0,
@@ -144,10 +187,16 @@ class App extends React.Component {
       player2_current: 0,
       activePlayer: "1",
       diceA: "dice1",
-      diceB: "dice2",
+      diceB: "dice1",
       inputDisableStatus: false,
       gameState: "Playing",
     });
+  };
+  funcSnoop66 = () => {
+    // if (this.state.snoopDogg) {
+    //   setTimeout(this.setState({ snoopDogg: false }), 3000);
+    // }
+    // return <div className='snoop'></div>;
   };
   render() {
     return (
@@ -159,6 +208,7 @@ class App extends React.Component {
           activePlayer={this.state.activePlayer}
           gameState={this.state.gameState}
         />
+        {/* {this.state.snoopDogg && this.funcSnoop66()} */}
         <Buttons
           rand_diceA={this.state.diceA}
           rand_diceB={this.state.diceB}
