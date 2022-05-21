@@ -23,13 +23,17 @@ export default class Buttons extends Component {
         >
           Roll dice
         </button>
-        <input
-          disabled={this.props.inputDisableStatus}
-          type='number'
-          placeholder={100}
-          onChange={this.props.inputChange}
-          value={this.props.inputMaxScore}
-        />
+        <div>
+          <label htmlFor='inpu'>Max score</label>
+          <input
+            id='inpu'
+            disabled={this.props.inputDisableStatus}
+            type='number'
+            placeholder={100}
+            onChange={this.props.inputChange}
+            value={this.props.inputMaxScore}
+          />
+        </div>
       </div>
     );
   };
