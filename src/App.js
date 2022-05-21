@@ -26,30 +26,25 @@ class App extends React.Component {
 
     let randomRollA = Math.floor(Math.random() * 6 + 1);
     let randomRollB = Math.floor(Math.random() * 6 + 1);
+    //!66 handle
     if (
       randomRollA === 6 &&
       randomRollB === 6 &&
       this.state.activePlayer === "1"
     ) {
+      //does not work for unknown reason???????
+      this.setState({ player1_current: 0 });
       this.setState({ activePlayer: "2" });
       this.setState({ player1_current: 0 });
-      //todo next player turn
-      //!
-      //!
-      //!
-      this.setState({ snoopDogg: true });
     } else if (
       randomRollA === 6 &&
       randomRollB === 6 &&
       this.state.activePlayer === "2"
     ) {
+      //does not work for unknown reason???????
+      this.setState({ player2_current: 0 });
       this.setState({ activePlayer: "1" });
       this.setState({ player2_current: 0 });
-      //todo next player turn
-      //!
-      //!
-      //!
-      this.setState({ snoopDogg: true });
     }
 
     this.setState({ diceA: `dice${randomRollA}` });
@@ -76,7 +71,6 @@ class App extends React.Component {
     this.handleBackGround();
   }
   handleMaxScoreInput = () => {
-    console.log(typeof this.state.inputMaxScore);
     if (this.state.inputMaxScore === "") this.setState({ inputMaxScore: 100 });
     this.setState({ inputDisableStatus: true });
     //min of 10
@@ -111,9 +105,7 @@ class App extends React.Component {
     }
   };
   inputChange = (e) => {
-    console.log(e);
     this.setState({ inputMaxScore: e.target.value });
-    console.log(this.state.inputMaxScore);
   };
   handleBackGround = () => {
     let im1 = document.querySelectorAll(".playerName")[0].parentElement;
@@ -136,7 +128,6 @@ class App extends React.Component {
     ) {
       if (totalScoreA == this.state.inputMaxScore) {
         //todo WIN
-        console.log("player1 win");
         this.setState({ activePlayer: "1" });
         this.setState({ gameState: "Winner" });
 
@@ -144,7 +135,6 @@ class App extends React.Component {
         return;
       }
       if (totalScoreB == this.state.inputMaxScore) {
-        console.log("player 2 win");
         this.setState({ activePlayer: "2" });
         this.setState({ gameState: "Winner" });
         this.disableButtonsOnWinToggle();
@@ -152,7 +142,6 @@ class App extends React.Component {
         return;
       }
       if (totalScoreA > this.state.inputMaxScore) {
-        console.log("player1 lose");
         this.setState({ activePlayer: "2" });
         this.setState({ gameState: "Winner" });
         this.disableButtonsOnWinToggle();
@@ -160,7 +149,6 @@ class App extends React.Component {
         return;
       }
       if (totalScoreB > this.state.inputMaxScore) {
-        console.log("player2 lose");
         this.setState({ activePlayer: "1" });
         this.setState({ gameState: "Winner" });
         this.disableButtonsOnWinToggle();
