@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import React from "react";
+import Player from "./components/Player";
+import Buttons from "./components/Buttons";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      player1_score: 0,
+      player1_current: 0,
+      player2_score: 0,
+      player2_current: 0,
+      activePlayer: "1",
+    };
+  }
+
+  render() {
+    return (
+      <div className='cont'>
+        <Player
+          player='1'
+          score={this.state.player1_score}
+          current={this.state.player1_current}
+          activePlayer={this.state.activePlayer}
+        />
+        <Buttons rand_diceA={"dice1"} rand_diceB={"dice2"} />
+        <Player
+          player='2'
+          score={this.state.player2_score}
+          current={this.state.player2_current}
+          activePlayer={this.state.activePlayer}
+        />
+      </div>
+    );
+  }
 }
-
 export default App;
